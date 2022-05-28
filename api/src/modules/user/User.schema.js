@@ -25,4 +25,4 @@ const UserSchema = new mongoose.Schema(
 );
 
 // We just created a new schema called UserSchema, now time to convert
-mongoose.model("User", UserSchema); //Users
+export default mongoose.model("User", UserSchema); //Users
