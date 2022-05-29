@@ -1,5 +1,5 @@
 .wrapper {
-  min-height: 76vh;
+  min-height: 75vh;
 }
 
 .center {
@@ -12,5 +12,5 @@
   background: rgba(0, 0, 0, 0.191);
   padding: 2rem;
   border-radius: 1rem;
-  box-shadow: -5px, 5px, rgba(0, 0, 0, 0.3);
+  box-shadow: -5px, 5px, 5px, rgba(75, 98, 109, 0.916);
 }
