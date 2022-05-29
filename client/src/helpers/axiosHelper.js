@@ -1,10 +1,13 @@
 import axios from "axios";
 
-const apiEp = "http://localhost:8000/api/v1/users";
+const apiEp =
+  process.env.NODE_ENV === "production"
+    ? "/api/v1/users"
+    : "http://localhost:8000/api/v1/users";
 
-const postUser = (usrObj) => {
+const postUser = async (usrObj) => {
   try {
-    axios.post();
+    const result = await axios.post();
   } catch (error) {
     return {
       status: "error",
