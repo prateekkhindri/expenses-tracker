@@ -15,10 +15,15 @@ router.post("/", async (req, res) => {
       message: "User created successfully",
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+
+    let message = error.message;
+    if (error.message.includes("E11000 duplicate key error")) {
+      message = "This email is already registered";
+    }
     res.json({
       status: "error",
-      message: error.message,
+      message,
     });
   }
 });
