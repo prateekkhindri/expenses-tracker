@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import Layout from "../../components/layout/Layout";
+import { postUser } from "../../helpers/axiosHelper";
 
 export const Register = () => {
   // 1. Create a state to grab the form value
@@ -18,10 +19,11 @@ export const Register = () => {
 
   //   console.log(form);
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
-
-    console.log(form, "Call api to send this data to the server");
+    const result = await postUser(form);
+    // console.log(form, "Call api to send this data to the server");
+    console.log(result, "Call api to send this data to the server");
   };
 
   return (

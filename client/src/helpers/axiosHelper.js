@@ -5,9 +5,10 @@ const apiEp =
     ? "/api/v1/users"
     : "http://localhost:8000/api/v1/users";
 
-const postUser = async (usrObj) => {
+export const postUser = async (usrObj) => {
   try {
-    const result = await axios.post();
+    const { data } = await axios.post(apiEp, usrObj);
+    return data;
   } catch (error) {
     return {
       status: "error",
