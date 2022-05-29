@@ -16,12 +16,18 @@ export const Register = () => {
     });
   };
 
-  console.log(form);
+  //   console.log(form);
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(form, "Call api to send this data to the server");
+  };
 
   return (
     <Layout>
       <div className="center">
-        <Form>
+        <Form onSubmit={handleOnSubmit}>
           <Form.Group className="mb-3" controlId="formGroupEmail">
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -54,7 +60,7 @@ export const Register = () => {
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formGroupPassword">
-            <Form.Label></Form.Label>
+            {/* <Form.Label></Form.Label> */}
             <Button variant="primary" type="submit">
               Register
             </Button>
