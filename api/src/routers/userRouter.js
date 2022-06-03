@@ -1,13 +1,14 @@
 import express from "express";
-import { createTable } from "../modules/user/User.model.js";
+import { createUser, findUser } from "../modules/user/User.model.js";
 const router = express.Router();
 
+// User Registration
 router.post("/", async (req, res) => {
   // console.log(req.body);
 
   try {
     // Send data to the DB queries
-    const result = await createTable(req.body);
+    const result = await createUser(req.body);
     console.log(result); // **Send the request in http to see if the data is created and getting stored in the data base
 
     res.json({
@@ -24,6 +25,33 @@ router.post("/", async (req, res) => {
     res.json({
       status: "error",
       message,
+    });
+  }
+});
+
+// User Login endpoint
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await findUser({ email, password });
+
+    if (user?._id) {
+      return res.json({
+        status: "success",
+        message: "user logged in successfully",
+        user: user,
+      });
+    }
+    console.log(user);
+    res.json({
+      status: "error",
+      message: "Invalid login credentials",
+    });
+  } catch (error) {
+    res.json({
+      status: "error",
+      message: error.message,
     });
   }
 });
