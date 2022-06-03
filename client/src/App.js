@@ -1,6 +1,6 @@
 import "./App.css";
 import { Register } from "./pages/register-login/Register";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
