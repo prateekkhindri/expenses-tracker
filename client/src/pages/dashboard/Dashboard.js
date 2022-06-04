@@ -33,7 +33,7 @@ export const Dashboard = () => {
     e.preventDefault();
 
     const result = await postTransaction(form);
-    console.log(result);
+    // console.log(result);
     setResp(result);
   };
 

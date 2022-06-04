@@ -17,7 +17,9 @@ createConnection();
 
 // API - Load middlewares
 import userRouter from "./src/routers/userRouter.js";
+import transactionRouter from "./src/routers/transactionRouter.js";
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/transactions", transactionRouter);
 
 // For front end static content
 app.get("/", (req, res) => {

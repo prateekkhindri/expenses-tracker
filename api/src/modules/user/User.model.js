@@ -6,7 +6,7 @@ export const createUser = (newUserObj) => {
   return UserSchema(newUserObj).save();
 };
 
-// Find user, @usrobj shpould have an email and password
+// Find user, @usrobj should have an email and password
 export const findUser = (userObj) => {
   return UserSchema.findOne(userObj);
 };
