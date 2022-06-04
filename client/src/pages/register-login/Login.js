@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Alert, Button, Form } from "react-bootstrap";
 import Layout from "../../components/layout/Layout";
-import { postUser } from "../../helpers/axiosHelper";
-import { Link } from "react-router-dom";
+import { loginUser, postUser } from "../../helpers/axiosHelper";
+import { Link, navigation, useNavigate } from "react-router-dom";
 
 export const Login = () => {
+  const navigation = useNavigate();
   // 1. Create a state to grab the form value
   const [form, setForm] = useState({});
 
@@ -27,9 +28,36 @@ export const Login = () => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
+    // alert("Haven't submitted this yet");
+
+    // console.log(form);           // Console: the user information submitted
+
+    const res = await loginUser(form);
+    console.log(res);
+    if (res.status === "success") {
+      navigation("/dashboard");
+      return;
+    }
+    setResponse(res);
   };
 
-  console.log(response);
+  //   console.log(response);
+
+  const inputField = [
+    {
+      name: "email",
+      label: "Email address",
+      type: "email",
+      required: true,
+    },
+
+    {
+      name: "password",
+      label: "Password",
+      type: "password",
+      required: true,
+    },
+  ];
   return (
     <Layout>
       <div className="center">
@@ -44,17 +72,25 @@ export const Login = () => {
               {response.message}
             </Alert>
           )}
-          {/* <Form.Group className="mb-3" controlId="formGroupEmail">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              onChange={handleOnChange}
-              type="text"
-              name="name"
-              placeholder="Enter your name"
-              required
-            />
-          </Form.Group> */}
-          <Form.Group className="mb-3" controlId="formGroupPassword">
+
+          {inputField.map(({ label, ...rest }, i) => {
+            return (
+              <Form.Group
+                key={i}
+                className="mb-3"
+                controlId="formGroupPassword"
+              >
+                <Form.Label>{label}</Form.Label>
+                <Form.Control
+                  onChange={handleOnChange}
+                  placeholder={label}
+                  {...rest}
+                />
+              </Form.Group>
+            );
+          })}
+
+          {/* <Form.Group className="mb-3" controlId="formGroupPassword">
             <Form.Label>Email address</Form.Label>
             <Form.Control
               onChange={handleOnChange}
@@ -73,7 +109,7 @@ export const Login = () => {
               placeholder="Password"
               required
             />
-          </Form.Group>
+          </Form.Group> */}
 
           <Form.Group className="mb-3" controlId="formGroupPassword">
             {/* <Form.Label></Form.Label> */}
