@@ -37,10 +37,11 @@ router.post("/login", async (req, res) => {
     const user = await findUser({ email, password });
 
     if (user?._id) {
+      user.password = undefined; // When storing the user information in the session storage, we make sure that the password is not stored
       return res.json({
         status: "success",
         message: "user logged in successfully",
-        user: user,
+        user,
       });
     }
     console.log(user);

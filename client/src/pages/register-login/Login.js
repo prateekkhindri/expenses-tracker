@@ -35,6 +35,7 @@ export const Login = () => {
     const res = await loginUser(form);
     console.log(res);
     if (res.status === "success") {
+      window.sessionStorage.setItem("user", JSON.stringify(res.user)); // Storing the user login information in the session storage as a string
       navigation("/dashboard");
       return;
     }
@@ -120,7 +121,7 @@ export const Login = () => {
 
           <div className="text-end">
             <p>
-              Don't have an account yet<Link to="/register">Sign Up</Link>
+              Don't have an account yet? <Link to="/register">Sign Up</Link>
             </p>
           </div>
         </Form>
