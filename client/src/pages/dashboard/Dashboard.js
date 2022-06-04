@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/layout/Layout";
 import { useNavigate } from "react-router-dom";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Alert, Button, Col, Form, Row } from "react-bootstrap";
+import { postTransaction } from "../../helpers/axiosHelper";
 
 // const auth = false;
 export const Dashboard = () => {
   const navigate = useNavigate();
 
-  const [form, setForm] = useState("");
+  const [form, setForm] = useState({});
+  const [resp, setResp] = useState({});
 
   // const [user, setUser] = useState();
 
@@ -27,9 +29,22 @@ export const Dashboard = () => {
     });
   };
 
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+
+    const result = await postTransaction(form);
+    console.log(result);
+    setResp(result);
+  };
+
   return (
     <Layout>
-      <Form className="mt-5">
+      <Form className="mt-5" onSubmit={handleOnSubmit}>
+        {resp?.message && (
+          <Alert variant={resp?.status === "success" ? "success" : "danger"}>
+            {resp?.message}
+          </Alert>
+        )}
         <Row className="g-2">
           <Col md={2}>
             <Form.Select name="type" onChange={handleOnChange}>

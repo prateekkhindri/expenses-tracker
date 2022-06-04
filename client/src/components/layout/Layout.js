@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
     setUser(info);
   }, []);
 
-  console.log(user);
+  // console.log(user);
 
   const handleOnLogOut = () => {
     window.sessionStorage.removeItem("user");
