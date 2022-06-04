@@ -3,6 +3,7 @@ import Layout from "../../components/layout/Layout";
 import { useNavigate } from "react-router-dom";
 import { Alert, Button, Col, Form, Row } from "react-bootstrap";
 import { postTransaction } from "../../helpers/axiosHelper";
+import { CustomTable } from "../../components/custom-table/CustomTable";
 
 // const auth = false;
 export const Dashboard = () => {
@@ -79,6 +80,10 @@ export const Dashboard = () => {
       </Form>
 
       <hr />
+
+      <Row>
+        <CustomTable />
+      </Row>
     </Layout>
   );
 };

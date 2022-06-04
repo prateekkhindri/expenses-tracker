@@ -14,4 +14,4 @@ export const findTransactions = (filter) => {
   return TransactionSchema.find(filter);
 };
 
-// *** We now call the function createUser in userRouter and invoke it req.body as it holds the data
+// *** We now call the function createTransaction in transactionRouter and invoke it with req.body as it holds the data
