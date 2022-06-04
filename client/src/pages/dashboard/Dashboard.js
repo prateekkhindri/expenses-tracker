@@ -33,7 +33,14 @@ export const Dashboard = () => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
 
-    const result = await postTransaction(form);
+    const { _id } = JSON.parse(window.sessionStorage.getItem("user"));
+    console.log(_id);
+
+    if (!_id) {
+      return alert("Please login first");
+    }
+
+    const result = await postTransaction({ ...form, userId: _id });
     // console.log(result);
     setResp(result);
   };
