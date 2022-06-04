@@ -4,7 +4,7 @@ import Layout from "../../components/layout/Layout";
 import { postUser } from "../../helpers/axiosHelper";
 import { Link } from "react-router-dom";
 
-export const Register = () => {
+export const Login = () => {
   // 1. Create a state to grab the form value
   const [form, setForm] = useState({});
 
@@ -27,10 +27,6 @@ export const Register = () => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    const result = await postUser(form);
-    // console.log(form, "Call api to send this data to the server");
-    // console.log(result, "Call api to send this data to the server");
-    setResponse(result);
   };
 
   console.log(response);
@@ -38,7 +34,7 @@ export const Register = () => {
     <Layout>
       <div className="center">
         <Form onSubmit={handleOnSubmit}>
-          <h3>Register new user</h3>
+          <h3>Welcome back!</h3>
           <hr />
 
           {response.message && (
@@ -48,7 +44,7 @@ export const Register = () => {
               {response.message}
             </Alert>
           )}
-          <Form.Group className="mb-3" controlId="formGroupEmail">
+          {/* <Form.Group className="mb-3" controlId="formGroupEmail">
             <Form.Label>Name</Form.Label>
             <Form.Control
               onChange={handleOnChange}
@@ -57,7 +53,7 @@ export const Register = () => {
               placeholder="Enter your name"
               required
             />
-          </Form.Group>
+          </Form.Group> */}
           <Form.Group className="mb-3" controlId="formGroupPassword">
             <Form.Label>Email address</Form.Label>
             <Form.Control
@@ -82,13 +78,13 @@ export const Register = () => {
           <Form.Group className="mb-3" controlId="formGroupPassword">
             {/* <Form.Label></Form.Label> */}
             <Button variant="primary" type="submit">
-              Register
+              Login
             </Button>
           </Form.Group>
 
           <div className="text-end">
             <p>
-              Already have an account <Link to="/">Login</Link>
+              Don't have an account yet<Link to="/register">Sign Up</Link>
             </p>
           </div>
         </Form>
