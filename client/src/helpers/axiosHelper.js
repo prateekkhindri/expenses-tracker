@@ -65,3 +65,22 @@ export const getTransactions = async (transObj) => {
     };
   }
 };
+
+// Delete transactions associated with the user
+export const deleteTransactions = async (ids) => {
+  try {
+    const { _id } = JSON.parse(window.sessionStorage.getItem("user"));
+    const { data } = await axios.delete(transactionEp, {
+      headers: {
+        Authorization: _id,
+      },
+      data: ids,
+    });
+    return data;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Table } from "react-bootstrap";
-import { getTransactions } from "../../helpers/axiosHelper";
+import { Alert, Button, Form, Table } from "react-bootstrap";
+import { deleteTransactions, getTransactions } from "../../helpers/axiosHelper";
 
 export const CustomTable = () => {
   const [transactions, setTransactions] = useState([]);
 
   const [ids, setIds] = useState([]);
+
+  const [resp, setResp] = useState([]);
 
   useEffect(() => {
     //   Call the function to call the API to fetch all the transactions
@@ -39,7 +41,22 @@ export const CustomTable = () => {
 
   const handleOnDelete = async () => {
     // Call API to delete the selected transactions
-    console.log(ids);
+    // console.log(ids);
+
+    if (
+      !window.confirm(
+        `Are you sure you want to delete ${ids.length} transactions?`
+      )
+    ) {
+      return;
+    }
+
+    // Call API to delete the selected transactions
+    const result = await deleteTransactions(ids);
+    result.status === "success" && fetchTransactions() && setIds([]);
+    setResp(result);
+
+    // If status is success then refetch the transactions
   };
 
   const balance = transactions.reduce((acc, transaction) => {
@@ -98,8 +115,13 @@ export const CustomTable = () => {
           </tr>
         </tbody>
       </Table>
+      {resp.message && (
+        <Alert variant={resp.status === "success" ? "success" : "danger"}>
+          {resp.message}
+        </Alert>
+      )}
       {ids.length > 0 && (
-        <Button variant="danger" onClick={handleOnDelete}>
+        <Button variant="danger" onClick={handleOnDelete} className="mb-2">
           Delete {ids.length} selected transactions
         </Button>
       )}
