@@ -47,3 +47,21 @@ export const postTransaction = async (transObj) => {
     };
   }
 };
+
+// Get all transactions associated with the user
+export const getTransactions = async (transObj) => {
+  try {
+    const { _id } = JSON.parse(window.sessionStorage.getItem("user"));
+    const { data } = await axios.get(transactionEp, {
+      headers: {
+        Authorization: _id,
+      },
+    });
+    return data;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};

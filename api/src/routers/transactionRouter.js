@@ -1,9 +1,32 @@
 import express from "express";
-import { createTransaction } from "../modules/transactions/Transaction.model.js";
+import {
+  createTransaction,
+  findTransactions,
+} from "../modules/transactions/Transaction.model.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {});
+router.get("/", async (req, res) => {
+  try {
+    const { authorization } = req.headers;
+    console.log(req.headers.authorization);
+
+    const filter = { userId: authorization };
+
+    const result = await findTransactions(filter);
+
+    res.json({
+      status: "success",
+      message: "Transaction List",
+      result,
+    });
+  } catch (error) {
+    res.json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
 
 router.post("/", async (req, res) => {
   try {

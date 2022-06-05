@@ -18,3 +18,9 @@ Content-type: application/json
     "email": "test@email",
     "password": "123456"
 }
+
+
+
+### Transaction API
+GET http://localhost:8000/api/v1/transactions
+Authorization: 6292ea4561d75a998d125fd0

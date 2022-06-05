@@ -6,10 +6,12 @@ export const createTransaction = (newTransactionObj) => {
   return TransactionSchema(newTransactionObj).save();
 };
 
+// Find single transaction
 export const findTransaction = (filter) => {
   return TransactionSchema.findOne(filter);
 };
 
+// Find all transactions, @filter should be an object
 export const findTransactions = (filter) => {
   return TransactionSchema.find(filter);
 };

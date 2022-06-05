@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
+import { getTransactions } from "../../helpers/axiosHelper";
 
 export const CustomTable = () => {
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    //   Call the function to call the API to fetch all the transactions
+    fetchTransactions();
+  }, []);
+
+  const fetchTransactions = async () => {
+    // Call axios to fetch all the transactions
+    const data = await getTransactions();
+    if (data.status === "success") {
+      setTransactions(data.result);
+    }
+  };
+
+  console.log(transactions);
+
   return (
     <div className="mt-5">
-      100 transactions found!
+      {transactions.length} transactions found!
       <Table hover>
         <thead>
           <tr>
@@ -16,27 +34,37 @@ export const CustomTable = () => {
           </tr>
         </thead>
         <tbody>
+          {transactions.map((trans, i) => (
+            <tr key={trans._id}>
+              <td>{i + 1}</td>
+              <td>{new Date(trans.createdAt).toLocaleDateString()}</td>
+              <td>{trans.title}</td>
+
+              {trans.type === "income" ? (
+                <>
+                  <td></td>
+
+                  <td>
+                    <span className="text-success">-${trans.amount}</span>
+                  </td>
+                </>
+              ) : (
+                <>
+                  <td>
+                    <span className="text-danger">-${trans.amount}</span>
+                  </td>
+                  <td></td>
+                </>
+              )}
+            </tr>
+          ))}
+
           <tr>
-            <td>1</td>
-            <td>2022-5-6</td>
-            <td>Shopping Bags</td>
-            <td>- $500</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>2022-5-4</td>
-            <td>Freelancing Software</td>
-            <td></td>
-            <td>
-              <span className="text-success rounded p-1 fw-bold">$20000</span>
+            <td colSpan={5} className="text-end">
+              {" "}
+              Balance $444
             </td>
           </tr>
-          {/* <tr>
-            <td>3</td>
-            <td colSpan={2}>Larry the Bird</td>
-            <td>@twitter</td>
-          </tr> */}
         </tbody>
       </Table>
     </div>
