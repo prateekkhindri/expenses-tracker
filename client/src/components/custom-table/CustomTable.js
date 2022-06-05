@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
+import { Button, Form, Table } from "react-bootstrap";
 import { getTransactions } from "../../helpers/axiosHelper";
 
 export const CustomTable = () => {
   const [transactions, setTransactions] = useState([]);
+
+  const [ids, setIds] = useState([]);
 
   useEffect(() => {
     //   Call the function to call the API to fetch all the transactions
@@ -19,6 +21,33 @@ export const CustomTable = () => {
   };
 
   console.log(transactions);
+
+  const handleOnCheck = (e) => {
+    const { checked, value } = e.target;
+
+    if (checked) {
+      // Add id to the array
+      setIds([...ids, value]);
+    } else {
+      // Remove the id from the array
+      const filteredIds = ids.filter((id) => {
+        return id !== value;
+      });
+      setIds(filteredIds);
+    }
+  };
+
+  const handleOnDelete = async () => {
+    // Call API to delete the selected transactions
+    console.log(ids);
+  };
+
+  const balance = transactions.reduce((acc, transaction) => {
+    return transaction.type === "income"
+      ? acc + transaction.amount
+      : acc - transaction.amount;
+  }, 0);
+  // console.log(balance);
 
   return (
     <div className="mt-5">
@@ -36,7 +65,9 @@ export const CustomTable = () => {
         <tbody>
           {transactions.map((trans, i) => (
             <tr key={trans._id}>
-              <td>{i + 1}</td>
+              <td>
+                <Form.Check value={trans._id} onChange={handleOnCheck} />
+              </td>
               <td>{new Date(trans.createdAt).toLocaleDateString()}</td>
               <td>{trans.title}</td>
 
@@ -60,13 +91,18 @@ export const CustomTable = () => {
           ))}
 
           <tr>
-            <td colSpan={5} className="text-end">
+            <td colSpan={5} className="text-end fw-bold">
               {" "}
-              Balance $444
+              Balance $ {balance}
             </td>
           </tr>
         </tbody>
       </Table>
+      {ids.length > 0 && (
+        <Button variant="danger" onClick={handleOnDelete}>
+          Delete {ids.length} selected transactions
+        </Button>
+      )}
     </div>
   );
 };

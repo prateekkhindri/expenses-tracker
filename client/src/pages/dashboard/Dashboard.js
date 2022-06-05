@@ -12,6 +12,8 @@ export const Dashboard = () => {
   const [form, setForm] = useState({});
   const [resp, setResp] = useState({});
 
+  const [refetchFlag, setRefetchFlag] = useState(0);
+
   // const [user, setUser] = useState();
 
   useEffect(() => {
@@ -43,6 +45,10 @@ export const Dashboard = () => {
     const result = await postTransaction({ ...form, userId: _id });
     // console.log(result);
     setResp(result);
+
+    if (result.status === "success") {
+      setRefetchFlag(refetchFlag + 1);
+    }
   };
 
   return (
@@ -89,7 +95,7 @@ export const Dashboard = () => {
       <hr />
 
       <Row>
-        <CustomTable />
+        <CustomTable key={refetchFlag} />
       </Row>
     </Layout>
   );
