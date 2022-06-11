@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Form, Table } from "react-bootstrap";
 import { deleteTransactions, getTransactions } from "../../helpers/axiosHelper";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTransactionsAction } from "../../pages/dashboard/dashboard.action";
 
 export const CustomTable = () => {
-  const [transactions, setTransactions] = useState([]);
+  const dispatch = useDispatch();
+  // const [transactions, setTransactions] = useState([]);
+
+  const { transactions } = useSelector((state) => state.dashboard);
 
   const [ids, setIds] = useState([]);
 
@@ -11,16 +16,18 @@ export const CustomTable = () => {
 
   useEffect(() => {
     //   Call the function to call the API to fetch all the transactions
-    fetchTransactions();
+    // fetchTransactions();
+
+    dispatch(fetchTransactionsAction());
   }, []);
 
-  const fetchTransactions = async () => {
-    // Call axios to fetch all the transactions
-    const data = await getTransactions();
-    if (data.status === "success") {
-      setTransactions(data.result);
-    }
-  };
+  // const fetchTransactions = async () => {
+  // Call axios to fetch all the transactions
+  // const data = await getTransactions();
+  // if (data.status === "success") {
+  // setTransactions(data.result);
+  // }
+  // };
 
   console.log(transactions);
 
@@ -53,7 +60,9 @@ export const CustomTable = () => {
 
     // Call API to delete the selected transactions
     const result = await deleteTransactions(ids);
-    result.status === "success" && fetchTransactions() && setIds([]);
+    result.status === "success" &&
+      dispatch(fetchTransactionsAction()) &&
+      setIds([]);
     setResp(result);
 
     // If status is success then refetch the transactions
