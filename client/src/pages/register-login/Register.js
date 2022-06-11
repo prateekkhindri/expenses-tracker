@@ -1,18 +1,26 @@
 import React, { useState } from "react";
-import { Alert, Button, Form } from "react-bootstrap";
+import { Alert, Button, Form, Spinner } from "react-bootstrap";
 import Layout from "../../components/layout/Layout";
 import { postUser } from "../../helpers/axiosHelper";
 import { Link } from "react-router-dom";
+import { registerAction } from "./regLogin.action";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Register = () => {
+  const dispatch = useDispatch();
+
   // 1. Create a state to grab the form value
   const [form, setForm] = useState({});
 
+  const { response, isLoading } = useSelector((state) => state.regLogin);
+
   // 2. State to display error message to the user if registration fails
-  const [response, setResponse] = useState({
-    status: "",
-    message: "",
-  });
+  // const [response, setResponse] = useState({
+  //   status: "",
+  //   message: "",
+  // });
+
+  // const [loading, setLoading] = useState(false);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -27,13 +35,15 @@ export const Register = () => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    const result = await postUser(form);
+    // const result = await postUser(form);
     // console.log(form, "Call api to send this data to the server");
     // console.log(result, "Call api to send this data to the server");
-    setResponse(result);
+    // setResponse(result);
+
+    dispatch(registerAction(form));
   };
 
-  console.log(response);
+  // console.log(response);
   return (
     <Layout>
       <div className="center">
@@ -48,6 +58,8 @@ export const Register = () => {
               {response.message}
             </Alert>
           )}
+
+          {isLoading && <Spinner animation="border" variant="primary" />}
           <Form.Group className="mb-3" controlId="formGroupEmail">
             <Form.Label>Name</Form.Label>
             <Form.Control
